@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/03/25 17:07:49 by anlima           ###   ########.fr       */
+/*   Updated: 2023/03/27 15:19:53 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 # define PHILO_H
 # include <unistd.h>
 # include <stdio.h>
-
-typedef struct s_table
-{
-	int	philosophers;
-	int	forks;
-}				t_table;
+# include <stdlib.h>
 
 typedef struct s_philo
 {
@@ -29,8 +24,23 @@ typedef struct s_philo
 	struct s_philo	*next_philo;
 }				t_philo;
 
-t_philo	*philos(void);
+typedef struct s_table
+{
+	int		nb_of_forks;
+	int		nb_of_philo;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		times_philo_must_eat;
+	t_philo	*philos;
+}				t_table;
+
+t_table	*table(void);
 int		ft_atoi(char *str);
+t_philo	*lst_last(void);
+void	populate_table(void);
+t_philo	*create_philo(int philo_nb);
+void	philo_iter(void);
 // int	eat();
 // int	think();
 // int	sleep();
