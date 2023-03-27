@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:24 by anlima            #+#    #+#             */
-/*   Updated: 2023/03/27 15:21:09 by anlima           ###   ########.fr       */
+/*   Updated: 2023/03/27 15:34:15 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argv;
-	if (argc == 5 || argc == 6)
+	int	philos;
+
+	philos = ft_atoi(argv[1]);
+	if ((argc == 5 || argc == 6) && philos > 0)
 	{
 		table()->nb_of_philo = ft_atoi(argv[1]);
 		table()->nb_of_forks = table()->nb_of_philo;
@@ -28,7 +30,9 @@ int	main(int argc, char **argv)
 			table()->times_philo_must_eat = -1;
 		populate_table();
 	}
-	else
-		write(1, "Args error\n", 11);
+	else if (argc < 5)
+		write(1, ARG_ERROR, 30);
+	else if (philos <= 0)
+		write(1, ARG_FEW, 60);
 	return (0);
 }
