@@ -17,7 +17,7 @@
 
 ## Introduction
 
-The aim of this project is to learn the basics of threading a process by learning how to create threads and you discovering about mutexes.
+The aim of this project is to learn the basics of threading a process by learning how to create threads and discovering about mutexes.
 
 The subject of the project can be found in [this link](https://raw.githubusercontent.com/angelamcosta/philosophers/main/en.subject.pdf).
 
