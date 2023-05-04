@@ -6,67 +6,41 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 16:33:18 by anlima            #+#    #+#             */
-/*   Updated: 2023/03/27 15:13:37 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/04 15:30:48 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-t_philo	*lst_last(void);
-void	populate_table(void);
-t_philo	*create_philo(int philo_nb);
+t_table	*table(void);
+int		create_table(void);
+t_data	*philo_data(void);
 
-t_philo	*lst_last(void)
+t_table	*table(void)
 {
-	t_philo	*temp;
+	static t_table	table;
 
-	temp = table()->philos;
-	if (!temp)
-		return (NULL);
-	while (temp->next_philo)
-		temp = temp->next_philo;
-	return (temp);
+	return (&table);
 }
 
-void	populate_table(void)
+int	create_table(void)
 {
-	int		i;
-	t_philo	*aux;
+	int	n_philo;
 
-	i = 1;
-	while (i <= table()->nb_of_philo)
-	{
-		aux = lst_last();
-		if (!aux)
-			table()->philos = create_philo(i);
-		else
-			aux->next_philo = create_philo(i);
-		i++;
-	}
+	n_philo = philo_data()->number_of_philosophers;
+	table()->philosophers = (pthread_t **)malloc(sizeof(pthread_t) + 1);
+	if (!table()->philosophers)
+		return (0);
+	if (n_philo > 1)
+		table()->number_of_forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t) - 1);
+	else
+		table()->number_of_forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t));
+	return (1);
 }
 
-t_philo	*create_philo(int philo_nb)
+t_data	*philo_data(void)
 {
-	t_philo	*philo;
+	static t_data	data;
 
-	philo = (t_philo *)malloc(sizeof(t_philo));
-	if (!philo)
-		return (NULL);
-	philo->philo_number = philo_nb;
-	philo->right_fork = 0;
-	philo->left_fork = 0;
-	philo->next_philo = NULL;
-	return (philo);
+	return (&data);
 }
-
-// int	eat()
-// {
-// }
-
-// int	think()
-// {	
-// }
-
-// int	sleep()
-// {	
-// }
