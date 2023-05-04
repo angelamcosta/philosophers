@@ -6,54 +6,37 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/03/28 14:48:36 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/04 15:47:13 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-# include <unistd.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
-# define ARG_FEW "You need to have at leat 1 philosopher sitting at the table\n"
-# define ARG_ERROR "You need at least 4 arguments\n"
-# define RED "\033[91;1m"
-# define GREEN "\033[92;1m"
-# define YELLOW "\033[93;1m"
-# define BLUE "\033[94;1m"
-# define PINK "\033[95;1m"
-# define CLEAR	"\033[0m"
+# define ARG_ERROR "\033[91;1mYou need at least 4 and at max 5 arguments\033[0m\n"
+# define ARG_FEW "\033[93;1mYou need to have at leat 1 philosopher sitting at the table\033[0m\n"
 
-typedef struct s_philo
+typedef struct s_data
 {
-	int				philo_number;
-	int				left_fork;
-	int				right_fork;
-	pthread_t		pthread;
-	struct s_philo	*next_philo;
-}				t_philo;
+	int	number_of_philosophers;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	ntimes_must_eat;
+}				t_data;
 
 typedef struct s_table
 {
-	int					nb_of_forks;
-	int					nb_of_philo;
-	int					time_to_die;
-	int					time_to_eat;
-	int					time_to_sleep;
-	int					times_philo_must_eat;
-	t_philo				*philos;
-	int					time;
-	pthread_mutex_t		p_mutex;
-}				t_table;
+	pthread_t		**philosophers;
+	pthread_mutex_t	**number_of_forks;
+}					t_table;
 
 t_table	*table(void);
+t_data	*philo_data(void);
+int		create_table(void);
 int		ft_atoi(char *str);
-t_philo	*lst_last(void);
-void	populate_table(void);
-t_philo	*create_philo(int philo_nb);
-// int	p_eat();
-// int	p_think();
-// int	p_sleep();
 
 #endif
