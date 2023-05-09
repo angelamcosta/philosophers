@@ -6,13 +6,22 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/04 15:10:06 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:50:09 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+t_data	*data(void);
 int		ft_atoi(char *str);
+long	get_time_stamp(void);
+
+t_data	*data(void)
+{
+	static t_data	data;
+
+	return (&data);
+}
 
 int	ft_atoi(char *str)
 {
@@ -32,4 +41,18 @@ int	ft_atoi(char *str)
 	if (str[0] == '-')
 		nb *= -1;
 	return (nb);
+}
+
+long	get_time_stamp(void)
+{
+	struct timeval	val;
+
+	gettimeofday(&val, 0);
+	return (val.tv_sec * 1000000L + val.tv_usec);
+}
+
+void	log_action(char	*str)
+{
+	if (str)
+		ft_printf("[%d]: %s\n", get_time_stamp(), str);
 }

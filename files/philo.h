@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/04 15:47:13 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:47:26 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <sys/time.h>
+# include "./print_utils/ft_printf.h"
 # define ARG_ERROR "\033[91;1mYou need at least 4 and at max 5 arguments\033[0m\n"
 # define ARG_FEW "\033[93;1mYou need to have at leat 1 philosopher sitting at the table\033[0m\n"
 
@@ -28,15 +30,9 @@ typedef struct s_data
 	int	ntimes_must_eat;
 }				t_data;
 
-typedef struct s_table
-{
-	pthread_t		**philosophers;
-	pthread_mutex_t	**number_of_forks;
-}					t_table;
-
-t_table	*table(void);
-t_data	*philo_data(void);
-int		create_table(void);
+t_data	*data(void);
 int		ft_atoi(char *str);
+long	get_time_stamp(void);
+void	log_action(char	*str);
 
 #endif

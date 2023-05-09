@@ -3,7 +3,7 @@ NAME	=	philo
 CC		=	cc
 CFLAGS	=	-Wall -Werror -Wextra -pthread -fsanitize=thread
 
-SRC		=	philo.c ./utils/philo_utils.c ./utils/general_utils.c
+SRC		=	philo.c ./utils/general_utils.c ./print_utils/ft_printf.c
 
 RED		=	\033[91;1m
 GREEN	=	\033[92;1m
