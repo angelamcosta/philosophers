@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/09 15:47:26 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/10 14:15:02 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,28 @@
 # define ARG_ERROR "\033[91;1mYou need at least 4 and at max 5 arguments\033[0m\n"
 # define ARG_FEW "\033[93;1mYou need to have at leat 1 philosopher sitting at the table\033[0m\n"
 
+typedef struct s_philo
+{
+	int				id;
+	int				die;
+	int				eat;
+	int				sleep;
+	int				ntimes_eat;
+	pthread_t		*thread;
+	pthread_mutex_t	forks[2];
+}				t_philo;
+
+typedef struct s_fork
+{
+	int				id;
+	pthread_mutex_t	*mutex;
+}				t_fork;
+
 typedef struct s_data
 {
-	int	number_of_philosophers;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	ntimes_must_eat;
+	int		number_of_philosophers;
+	t_philo	**philosophers;
+	t_fork	**forks;
 }				t_data;
 
 t_data	*data(void);

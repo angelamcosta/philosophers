@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:24 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/09 15:50:59 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/10 14:14:22 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,10 @@ int	main(int argc, char **argv)
 		if ((argc == 5 || argc == 6) && philos > 0)
 		{
 			data()->number_of_philosophers = ft_atoi(argv[1]);
-			data()->time_to_die = ft_atoi(argv[2]);
-			data()->time_to_eat = ft_atoi(argv[3]);
-			data()->time_to_sleep = ft_atoi(argv[4]);
 			if (argc == 6)
-				data()->ntimes_must_eat = ft_atoi(argv[5]);
+				create_table(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), ft_atoi(argv[5]));
 			else
-				data()->ntimes_must_eat = -1;
+				create_table(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), -1);
 			log_action("Program has started");
 		}
 		else if (philos <= 0)
