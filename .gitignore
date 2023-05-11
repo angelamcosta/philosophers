@@ -2,3 +2,4 @@ files/philo
 main.c
 .vscode
 a.out
+tests.txt

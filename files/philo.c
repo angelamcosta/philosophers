@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:24 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/10 14:14:22 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/11 17:09:45 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ int	main(int argc, char **argv)
 		philos = ft_atoi(argv[1]);
 		if ((argc == 5 || argc == 6) && philos > 0)
 		{
-			data()->number_of_philosophers = ft_atoi(argv[1]);
+			data()->num_of_philos = ft_atoi(argv[1]);
+			create_table();
 			if (argc == 6)
-				create_table(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), ft_atoi(argv[5]));
+				fill_philo_info(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), ft_atoi(argv[5]));
 			else
-				create_table(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), -1);
-			log_action("Program has started");
+				fill_philo_info(ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), -1);
+			create_threads();
 		}
 		else if (philos <= 0)
 			ft_printf(ARG_FEW);

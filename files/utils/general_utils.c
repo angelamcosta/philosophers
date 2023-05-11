@@ -6,15 +6,17 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/09 15:50:09 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/11 17:00:11 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-t_data	*data(void);
-int		ft_atoi(char *str);
-long	get_time_stamp(void);
+t_data			*data(void);
+pthread_mutex_t	*print_lock(void);
+int				ft_atoi(char *str);
+long			get_time_stamp(void);
+void			log_action(int id, char *action);
 
 t_data	*data(void)
 {
@@ -51,8 +53,7 @@ long	get_time_stamp(void)
 	return (val.tv_sec * 1000000L + val.tv_usec);
 }
 
-void	log_action(char	*str)
+void	log_action(int id, char *action)
 {
-	if (str)
-		ft_printf("[%d]: %s\n", get_time_stamp(), str);
+	ft_printf("[%d]: Philosopher %i %s\n", get_time_stamp(), id, action);
 }

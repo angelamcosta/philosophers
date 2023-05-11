@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/10 14:15:02 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/11 17:09:39 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,39 @@
 # include "./print_utils/ft_printf.h"
 # define ARG_ERROR "\033[91;1mYou need at least 4 and at max 5 arguments\033[0m\n"
 # define ARG_FEW "\033[93;1mYou need to have at leat 1 philosopher sitting at the table\033[0m\n"
+# define THINK 500000
 
 typedef struct s_philo
 {
 	int				id;
-	int				die;
-	int				eat;
-	int				sleep;
+	long			die;
+	long			eat;
+	long			sleep;
 	int				ntimes_eat;
+	long			last_meal;
 	pthread_t		*thread;
-	pthread_mutex_t	forks[2];
 }				t_philo;
-
-typedef struct s_fork
-{
-	int				id;
-	pthread_mutex_t	*mutex;
-}				t_fork;
 
 typedef struct s_data
 {
-	int		number_of_philosophers;
-	t_philo	**philosophers;
-	t_fork	**forks;
+	int				num_of_philos;
+	t_philo			**philosophers;
+	pthread_mutex_t	**forks;
 }				t_data;
 
-t_data	*data(void);
-int		ft_atoi(char *str);
-long	get_time_stamp(void);
-void	log_action(char	*str);
+void			philo_eat(t_philo *philo);
+void			*philo_handler(void	*ptr);
+void			philo_sleep(t_philo *philo);
+void			philo_think(t_philo *philo);
+t_data			*data(void);
+pthread_mutex_t	*print_lock(void);
+int				ft_atoi(char *str);
+long			get_time_stamp(void);
+void			log_action(int id, char *action);
+int				create_table(void);
+void			create_threads(void);
+pthread_mutex_t	*create_fork(void);
+t_philo			*create_philo(int id);
+void			fill_philo_info(int die, int eat, int sleep, int ntimes_eat);
 
 #endif
