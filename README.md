@@ -54,7 +54,7 @@ The Philosophers repository has the following folder structure:
 
 ## 🚀 Usage
 
-To compile the Philosophers program, navigate to the `philo/` directory and run the following command:
+To compile the Philosophers program, navigate to the `files/` directory and run the following command:
 
 ```
 make
