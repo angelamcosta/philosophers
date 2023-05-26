@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/11 17:16:39 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/26 16:34:34 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	philo_eat(t_philo *philo);
 void	*philo_handler(void	*ptr);
+void	get_forks(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 
@@ -24,7 +25,10 @@ void	*philo_handler(void	*ptr)
 	{
 		if (get_time_stamp() - philo->last_meal > philo->die)
 			return (NULL);
-		philo_eat(philo);
+		if (data()->num_of_philos == 1)
+			philo_think(philo);
+		else
+			get_forks(philo);
 		if (philo->ntimes_eat != -1)
 			philo->ntimes_eat--;
 		philo_sleep(philo);
@@ -34,16 +38,35 @@ void	*philo_handler(void	*ptr)
 
 void	philo_eat(t_philo *philo)
 {
+	log_action(philo->id, "is eating");
+	philo->last_meal = get_time_stamp();
+	usleep(philo->eat);
+}
+
+void	philo_sleep(t_philo *philo)
+{
+	log_action(philo->id, "is sleeping");
+	usleep(philo->sleep);
+}
+
+void	philo_think(t_philo *philo)
+{
+	log_action(philo->id, "is thinking");
+	usleep(THINK);
+}
+
+void	get_forks(t_philo *philo)
+{
 	int	left_fork;
 	int	right_fork;
-	
+
 	left_fork = philo->id;
 	right_fork = (left_fork + 1) % data()->num_of_philos;
 	while (1)
 	{
 		if (pthread_mutex_trylock(data()->forks[left_fork]) == 0)
 		{
-			if (pthread_mutex_trylock(data()->forks[right_fork]) == 0 || data()->num_of_philos == 1)
+			if (pthread_mutex_trylock(data()->forks[right_fork]) == 0)
 				break ;
 			else
 			{
@@ -54,22 +77,7 @@ void	philo_eat(t_philo *philo)
 		else
 			philo_think(philo);
 	}
-	log_action(philo->id, "is eating");
-	usleep(philo->eat);
-	philo->last_meal = get_time_stamp();
-	if (data()->num_of_philos > 1)
-		pthread_mutex_unlock(data()->forks[right_fork]);
-	pthread_mutex_unlock(data()->forks[left_fork]);
-}
-
-void	philo_sleep(t_philo *philo)
-{
-	usleep(philo->sleep);
-	log_action(philo->id, "is sleeping");
-}
-
-void	philo_think(t_philo *philo)
-{
-	usleep(THINK);
-	log_action(philo->id, "is thinking");
+	philo_eat(philo);
+	pthread_mutex_unlock(data()->forks[right_fork]);
+	pthread_mutex_unlock(data()->forks[philo->id]);
 }
