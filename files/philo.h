@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/11 17:09:39 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/26 16:31:54 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ typedef struct s_data
 	int				num_of_philos;
 	t_philo			**philosophers;
 	pthread_mutex_t	**forks;
+	pthread_mutex_t	*use_print;
 }				t_data;
 
 void			philo_eat(t_philo *philo);
 void			*philo_handler(void	*ptr);
+void			get_forks(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_think(t_philo *philo);
 t_data			*data(void);
