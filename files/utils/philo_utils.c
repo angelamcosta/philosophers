@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/11 17:17:44 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/26 16:16:29 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ int	create_table(void)
 	data()->philosophers = (t_philo **)malloc(sizeof(t_philo *) * n_philo);
 	if (!data()->philosophers)
 		return (0);
-	if (n_philo == 1)
-		data()->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *));
-	else
-		data()->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * n_philo - 1);
+	data()->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *));
+	data()->use_print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(data()->use_print, NULL);
 	if (!data()->forks)
 	{
 		free(data()->philosophers);
