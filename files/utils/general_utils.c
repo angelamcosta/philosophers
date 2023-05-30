@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/26 16:02:10 by anlima           ###   ########.fr       */
+/*   Updated: 2023/05/30 18:26:04 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ long	get_time_stamp(void)
 
 void	log_action(int id, char *action)
 {
-	pthread_mutex_lock(data()->use_print);
+	pthread_mutex_lock(&(data()->use_print));
 	ft_printf("[%d]: Philosopher %i %s\n", get_time_stamp(), id, action);
-	pthread_mutex_unlock(data()->use_print);
+	pthread_mutex_unlock(&(data()->use_print));
 }
