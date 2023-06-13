@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/30 18:25:02 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/13 23:37:50 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include "./print_utils/ft_printf.h"
-# define ARG_ERROR "\033[91;1mYou need at least 4 and at max 5 arguments\033[0m\n"
-# define ARG_FEW "\033[93;1mYou need to have at leat 1 philosopher sitting at the table\033[0m\n"
+# define ARG_ERROR "\033[91;1mYou need 4 or 5 positive arguments\033[0m\n"
+# define ARG_FEW "\033[93;1mYou need at least 1 philo at the table\033[0m\n"
 # define THINK 500000
 
 typedef struct s_philo
