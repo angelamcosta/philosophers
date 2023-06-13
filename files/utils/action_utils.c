@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/30 18:22:20 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/13 23:07:00 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ void	philo_think(t_philo *philo);
 
 void	*philo_handler(void	*ptr)
 {
-	t_philo *philo = (t_philo *) ptr;
+	t_philo	*philo;
+
+	philo = (t_philo *) ptr;
 	while (philo->ntimes_eat == -1 || philo->ntimes_eat > 0)
 	{
 		if (get_time_stamp() - philo->last_meal > philo->die)
 		{
 			log_action(philo->id, "died");
-			return (NULL);
+			exit (0);
 		}
 		if (data()->num_of_philos == 1)
 			philo_think(philo);
