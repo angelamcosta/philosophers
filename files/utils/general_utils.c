@@ -6,17 +6,17 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/13 23:22:59 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/17 22:49:22 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-t_data			*data(void);
-pthread_mutex_t	*print_lock(void);
-int				ft_atoi(char *str);
-long			get_time_stamp(void);
-void			log_action(int id, char *action);
+t_data	*data(void);
+int		ft_atoi(char *str);
+void	clean_mallocs(void);
+long	get_time_stamp(void);
+void	log_action(int id, char *action);
 
 t_data	*data(void)
 {
@@ -29,27 +29,37 @@ int	ft_atoi(char *str)
 {
 	int		i;
 	long	nb;
-	int		len;
 
 	i = 0;
 	nb = 0;
-	len = 0;
-	while (str && str[len])
-		len++;
 	if (str[i] == '+')
 		i++;
-	while (i < len)
+	while (str[i])
 	{
-		if (str[i] == '+' || str[i] == '-' || (str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122))
+		if (str[i] == '+' || str[i] == '-' || !(str[i] >= '0' && str[i] <= '9'))
 		{
 			ft_printf(ARG_ERROR);
 			exit (0);
 		}
 		nb = (nb * 10) + (str[i++] - 48);
 	}
-	if (str[0] == '-')
-		nb *= -1;
 	return (nb);
+}
+
+void	clean_mallocs(void)
+{
+	int	i;
+	int	n_philos;
+
+	i = -1;
+	n_philos = data()->n_philos;
+	while (++i < n_philos)
+	{
+		free(data()->philos[i].thread);
+		pthread_mutex_destroy(&(data()->forks[i]));
+	}
+	free(data()->forks);
+	free(data()->philos);
 }
 
 long	get_time_stamp(void)
@@ -63,6 +73,7 @@ long	get_time_stamp(void)
 void	log_action(int id, char *action)
 {
 	pthread_mutex_lock(&(data()->use_print));
-	ft_printf("[%d ms]: Philosopher %i %s\n", (get_time_stamp() / 1000), id, action);
+	ft_printf("[%d: ms]: Philosopher %i %s\n", (get_time_stamp() / 1000),
+		id, action);
 	pthread_mutex_unlock(&(data()->use_print));
 }

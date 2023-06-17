@@ -6,111 +6,100 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/05/30 18:25:17 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/17 23:37:02 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int				create_table(void);
-void			create_threads(void);
-pthread_mutex_t	*create_fork(void);
-t_philo			*create_philo(int id);
-void			fill_philo_info(int die, int eat, int sleep, int ntimes_eat);
+void	create_table(void);
+void	create_philos(void);
+void	get_forks(t_philo philo);
+void	philo_die(t_philo philo);
+void	*philo_handler(void *ptr);
 
-t_philo	*create_philo(int id)
-{
-	t_philo		*philo;
-
-	philo = (t_philo *)malloc(sizeof(t_philo));
-	if (!philo)
-		return (0);
-	philo->id = id;
-	philo->thread = malloc(sizeof(pthread_t));
-	if (!philo->thread)
-	{
-		free(philo);
-		return (0);
-	}
-	return (philo);
-}
-
-pthread_mutex_t	*create_fork(void)
-{
-	pthread_mutex_t	*mutex;
-
-	mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	if (!mutex)
-		return (0);
-	if (pthread_mutex_init(mutex, NULL) != 0)
-	{
-		free(mutex);
-		return (0);
-	}
-	return (mutex);
-}
-
-int	create_table(void)
+void	create_table(void)
 {
 	int	i;
-	int	n_philo;
+	int	n_philos;
 
-	n_philo = data()->num_of_philos;
-	data()->philosophers = (t_philo **)malloc(sizeof(t_philo *) * n_philo);
-	if (!data()->philosophers)
-		return (0);
-	data()->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * n_philo);
-	pthread_mutex_init(&(data()->use_print), NULL);
-	if (!data()->forks)
-	{
-		free(data()->philosophers);
-		return (0);
-	}
-	i = 0;
-	while (i < n_philo)
-	{
-		data()->philosophers[i] = create_philo(i);
-		if (i + 1 <= n_philo || n_philo == 1)
-			data()->forks[i] = create_fork();
-		i++;
-	}
-	return (1);
+	i = -1;
+	n_philos = data()->n_philos;
+	data()->philos = (t_philo *)malloc(sizeof(t_philo) * n_philos);
+	data()->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+		* n_philos);
+	pthread_mutex_init(&data()->use_print, 0);
+	while (++i < n_philos)
+		pthread_mutex_init(&data()->forks[i], 0);
+	create_philos();
 }
 
-void	create_threads(void)
+void	create_philos(void)
 {
 	int	i;
-	int	n_philo;
+	int	n_philos;
 
 	i = -1;
-	n_philo = data()->num_of_philos;
-	while (++i < n_philo)
-		pthread_create(data()->philosophers[i]->thread, 0, &philo_handler, (void *)data()->philosophers[i]);
-	i = -1;
-	while (++i < n_philo)
+	n_philos = data()->n_philos;
+	while (++i < n_philos)
 	{
-		if (pthread_join(*(data()->philosophers[i]->thread), 0) != 0)
+		data()->philos[i].id = i;
+		data()->philos[i].ntimes_eat = data()->ntimes_eat;
+		data()->philos[i].thread = (pthread_t *)malloc(sizeof(pthread_t));
+		data()->philos[i].last_meal = get_time_stamp();
+		pthread_create(data()->philos[i].thread, 0, &philo_handler,
+			(void *)&data()->philos[i]);
+	}
+	i = -1;
+	while (++i < n_philos)
+		pthread_join(*(data()->philos[i].thread), 0);
+}
+
+void	get_forks(t_philo philo)
+{
+	int	left_fork;
+	int	right_fork;
+
+	left_fork = philo.id;
+	right_fork = left_fork + 1 % data()->n_philos;
+	while (1)
+	{
+		if (pthread_mutex_trylock(&data()->forks[left_fork]) == 0)
 		{
-			log_action(data()->philosophers[i]->id, "died");
-			return ;
+			if (pthread_mutex_trylock(&data()->forks[right_fork]) == 0)
+				break ;
+			else
+				philo_think(philo);
 		}
+		else
+			philo_think(philo);
 	}
+	philo_eat(philo);
+	pthread_mutex_unlock(&data()->forks[right_fork]);
+	pthread_mutex_unlock(&data()->forks[left_fork]);
+	philo_sleep(philo);
 }
 
-void	fill_philo_info(int die, int eat, int sleep, int ntimes_eat)
+void	philo_die(t_philo philo)
 {
-	int	i;
-	int	n_philo;
+	log_action(philo.id, "died");
+	clean_mallocs();
+	exit (0);
+}
 
-	i = 0;
-	n_philo = data()->num_of_philos;
-	while (i < n_philo)
+void	*philo_handler(void *ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ptr;
+	while (philo->ntimes_eat != 0)
 	{
-		data()->philosophers[i]->die = die * 1000;
-		data()->philosophers[i]->eat = eat * 1000;
-		data()->philosophers[i]->sleep = sleep * 1000;
-		data()->philosophers[i]->ntimes_eat = ntimes_eat;
-		data()->philosophers[i]->last_meal = get_time_stamp();
-		i++;
+		if (get_time_stamp() - philo->last_meal > data()->die)
+			philo_die(*philo);
+		if (data()->n_philos == 1)
+			philo_think(*philo);
+		else
+			get_forks(*philo);
 	}
+	return (0);
 }
