@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 17:52:43 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 19:24:49 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	create_table(void);
 void	create_philos(void);
 void	get_forks(t_philo philo);
 void	*philo_handler(void *ptr);
+void	lock_forks(t_philo philo, int left_fork, int right_fork);
 
 void	create_table(void)
 {
@@ -26,6 +27,7 @@ void	create_table(void)
 	data()->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 		* n_philos);
 	pthread_mutex_init(&data()->use_print, 0);
+	pthread_mutex_init(&data()->use_data, 0);
 	create_philos();
 }
 
@@ -55,6 +57,18 @@ void	get_forks(t_philo philo)
 
 	left_fork = philo.id;
 	right_fork = (left_fork + 1) % data()->n_philos;
+	pthread_mutex_lock(&(data()->use_data));
+	pthread_mutex_unlock(&(data()->use_data));
+	lock_forks(philo, left_fork, right_fork);
+	philo_eat(philo);
+	pthread_mutex_unlock(&data()->forks[left_fork]);
+	pthread_mutex_unlock(&data()->forks[right_fork]);
+	philo_sleep(philo);
+	philo_think(philo);
+}
+
+void	lock_forks(t_philo philo, int left_fork, int right_fork)
+{
 	if (philo.id % 2 == 0)
 	{
 		pthread_mutex_lock(&data()->forks[right_fork]);
@@ -69,11 +83,6 @@ void	get_forks(t_philo philo)
 		pthread_mutex_lock(&data()->forks[right_fork]);
 		log_action(philo.id, "has taken a fork");
 	}
-	philo_eat(philo);
-	pthread_mutex_unlock(&data()->forks[left_fork]);
-	pthread_mutex_unlock(&data()->forks[right_fork]);
-	philo_sleep(philo);
-	philo_think(philo);
 }
 
 void	*philo_handler(void *ptr)
@@ -81,8 +90,10 @@ void	*philo_handler(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	while (philo->ntimes_eat != 0 && !data()->philo_died)
+	while (philo->ntimes_eat != 0)
 	{
+		if (philo_die(*philo))
+			break ;
 		if (data()->n_philos == 1)
 			philo_think(*philo);
 		else

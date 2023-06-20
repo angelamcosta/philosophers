@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 17:48:51 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 18:35:22 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	clean_mallocs(void)
 		free(data()->philos[i].thread);
 		pthread_mutex_destroy(&(data()->forks[i]));
 	}
+	pthread_mutex_destroy(&data()->use_print);
+	pthread_mutex_destroy(&data()->use_data);
 	free(data()->forks);
 	free(data()->philos);
 }
