@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 15:10:26 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 17:27:29 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct s_data
 	long			sleep;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
+	long			start_time;
 	pthread_mutex_t	use_print;
-	pthread_mutex_t	use_data;
 }				t_data;
 
 void	philo_eat(t_philo philo);
@@ -54,7 +54,6 @@ void	log_action(int id, char *action);
 void	create_table(void);
 void	create_philos(void);
 void	get_forks(t_philo philo);
-void	philo_die(t_philo philo);
 void	*philo_handler(void *ptr);
 
 #endif

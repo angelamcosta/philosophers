@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 15:13:04 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 17:52:43 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	create_table(void)
 	data()->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 		* n_philos);
 	pthread_mutex_init(&data()->use_print, 0);
-	pthread_mutex_init(&data()->use_data, 0);
 	create_philos();
 }
 
@@ -56,24 +55,25 @@ void	get_forks(t_philo philo)
 
 	left_fork = philo.id;
 	right_fork = (left_fork + 1) % data()->n_philos;
-	while (1)
+	if (philo.id % 2 == 0)
 	{
-		if (pthread_mutex_trylock(&data()->forks[left_fork]) == 0)
-		{
-			if (pthread_mutex_trylock(&data()->forks[right_fork]) == 0)
-			{
-				philo_eat(philo);
-				pthread_mutex_unlock(&data()->forks[right_fork]);
-				pthread_mutex_unlock(&data()->forks[left_fork]);
-				philo_sleep(philo);
-				break ;
-			}
-			else
-				pthread_mutex_unlock(&data()->forks[left_fork]);
-		}
-		else
-			philo_think(philo);
+		pthread_mutex_lock(&data()->forks[right_fork]);
+		log_action(philo.id, "has taken a fork");
+		pthread_mutex_lock(&data()->forks[left_fork]);
+		log_action(philo.id, "has taken a fork");
 	}
+	else
+	{
+		pthread_mutex_lock(&data()->forks[left_fork]);
+		log_action(philo.id, "has taken a fork");
+		pthread_mutex_lock(&data()->forks[right_fork]);
+		log_action(philo.id, "has taken a fork");
+	}
+	philo_eat(philo);
+	pthread_mutex_unlock(&data()->forks[left_fork]);
+	pthread_mutex_unlock(&data()->forks[right_fork]);
+	philo_sleep(philo);
+	philo_think(philo);
 }
 
 void	*philo_handler(void *ptr)

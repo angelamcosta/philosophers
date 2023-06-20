@@ -1,6 +1,7 @@
-files/philo
+philo/philo
 main.c
 .vscode
 a.out
 tests.txt
-files/LazyPhilosophersTester
+philo/LazyPhilosophersTester
+philo/out
