@@ -6,15 +6,15 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:38:52 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 13:57:49 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 23:49:00 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
 
-static int	ft_printf_p(unsigned long n, char *base, int i, int flag);
-static int	ft_putnbr_base(long long int n, char *base, int i);
-static int	ft_printf_s(char *s);
+static	int	ft_printf_p(unsigned long n, char *base, int i, int flag);
+static	int	ft_putnbr_base(long long int n, char *base, int i);
+static	int	ft_printf_s(char *s);
 static	int	ft_call_print(char s, va_list arg);
 int			ft_printf(const char *s, ...);
 

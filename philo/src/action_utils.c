@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 19:22:07 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 23:51:30 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	philo_eat(t_philo philo);
 void	philo_sleep(t_philo philo);
 void	philo_think(t_philo philo);
 
-int		philo_die(t_philo philo)
+int	philo_die(t_philo philo)
 {
 	pthread_mutex_lock(&(data()->use_data));
 	if (data()->philo_died)
