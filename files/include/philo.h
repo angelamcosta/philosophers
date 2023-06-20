@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 13:58:42 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 15:10:26 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				n_philos;
+	int				philo_died;
 	int				ntimes_eat;
 	long			die;
 	long			eat;
@@ -39,6 +40,7 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	use_print;
+	pthread_mutex_t	use_data;
 }				t_data;
 
 void	philo_eat(t_philo philo);
