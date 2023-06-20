@@ -6,11 +6,11 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/17 23:37:02 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 14:01:12 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../include/philo.h"
 
 void	create_table(void);
 void	create_philos(void);
@@ -50,9 +50,6 @@ void	create_philos(void)
 		pthread_create(data()->philos[i].thread, 0, &philo_handler,
 			(void *)&data()->philos[i]);
 	}
-	i = -1;
-	while (++i < n_philos)
-		pthread_join(*(data()->philos[i].thread), 0);
 }
 
 void	get_forks(t_philo philo)

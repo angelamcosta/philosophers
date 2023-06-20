@@ -6,11 +6,11 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:24 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/17 22:42:54 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:58:05 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "./include/philo.h"
 
 int	main(int argc, char **argv)
 {

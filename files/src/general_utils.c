@@ -6,11 +6,11 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/17 22:49:22 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 14:04:07 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../include/philo.h"
 
 t_data	*data(void);
 int		ft_atoi(char *str);
@@ -53,6 +53,9 @@ void	clean_mallocs(void)
 
 	i = -1;
 	n_philos = data()->n_philos;
+	while (++i < n_philos)
+		pthread_join(*(data()->philos[i].thread), 0);
+	i = -1;
 	while (++i < n_philos)
 	{
 		free(data()->philos[i].thread);

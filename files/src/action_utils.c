@@ -6,11 +6,11 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/17 23:35:58 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:57:31 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../include/philo.h"
 
 void	philo_eat(t_philo philo);
 void	philo_sleep(t_philo philo);
