@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 23:51:30 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/21 11:57:26 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	philo_die(t_philo philo)
 	}
 	if (get_time_stamp() - philo.last_meal >= data()->die)
 	{
-		log_action(philo.id, "died");
+		ft_printf("%d\t%i\t%s\n", ((get_time_stamp() - data()->start_time) / 1000),
+			philo.id + 1, "died");
 		data()->philo_died = 1;
 		pthread_mutex_unlock(&(data()->use_data));
 		return (1);
