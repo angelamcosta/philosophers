@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 18:48:00 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/21 17:38:22 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef struct s_data
 	pthread_mutex_t	use_data;
 }				t_data;
 
-int		philo_die(t_philo philo);
-void	philo_eat(t_philo philo);
-void	philo_sleep(t_philo philo);
-void	philo_think(t_philo philo);
+int		philo_die(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 t_data	*data(void);
 int		ft_atoi(char *str);
 void	clean_mallocs(void);
@@ -55,8 +55,8 @@ long	get_time_stamp(void);
 void	log_action(int id, char *action);
 void	create_table(void);
 void	create_philos(void);
-void	get_forks(t_philo philo);
+void	get_forks(t_philo *philo);
 void	*philo_handler(void *ptr);
-void	lock_forks(t_philo philo, int left_fork, int right_fork);
+void	lock_forks(t_philo *philo, int left_fork, int right_fork);
 
 #endif

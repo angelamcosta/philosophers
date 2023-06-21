@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 11:55:36 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/21 17:39:07 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ long	get_time_stamp(void)
 void	log_action(int id, char *action)
 {
 	pthread_mutex_lock(&(data()->use_print));
-	if (philo_die(data()->philos[id]))
+	if (philo_die(&(data()->philos[id])))
 	{
 		pthread_mutex_unlock(&(data()->use_print));
 		return ;

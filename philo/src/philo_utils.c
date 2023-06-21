@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 11:47:37 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/21 17:38:38 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	create_table(void);
 void	create_philos(void);
-void	get_forks(t_philo philo);
+void	get_forks(t_philo *philo);
 void	*philo_handler(void *ptr);
-void	lock_forks(t_philo philo, int left_fork, int right_fork);
+void	lock_forks(t_philo *philo, int left_fork, int right_fork);
 
 void	create_table(void)
 {
@@ -50,12 +50,12 @@ void	create_philos(void)
 	}
 }
 
-void	get_forks(t_philo philo)
+void	get_forks(t_philo *philo)
 {
 	int	left_fork;
 	int	right_fork;
 
-	left_fork = philo.id;
+	left_fork = philo->id;
 	right_fork = (left_fork + 1) % data()->n_philos;
 	lock_forks(philo, left_fork, right_fork);
 	philo_eat(philo);
@@ -65,21 +65,21 @@ void	get_forks(t_philo philo)
 	philo_think(philo);
 }
 
-void	lock_forks(t_philo philo, int left_fork, int right_fork)
+void	lock_forks(t_philo *philo, int left_fork, int right_fork)
 {
-	if (philo.id % 2 == 0)
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data()->forks[right_fork]);
-		log_action(philo.id, "has taken a fork");
+		log_action(philo->id, "has taken a fork");
 		pthread_mutex_lock(&data()->forks[left_fork]);
-		log_action(philo.id, "has taken a fork");
+		log_action(philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&data()->forks[left_fork]);
-		log_action(philo.id, "has taken a fork");
+		log_action(philo->id, "has taken a fork");
 		pthread_mutex_lock(&data()->forks[right_fork]);
-		log_action(philo.id, "has taken a fork");
+		log_action(philo->id, "has taken a fork");
 	}
 }
 
@@ -90,12 +90,12 @@ void	*philo_handler(void *ptr)
 	philo = (t_philo *)ptr;
 	while (philo->ntimes_eat != 0)
 	{
-		if (philo_die(*philo))
+		if (philo_die(philo))
 			break ;
 		if (data()->n_philos == 1)
-			philo_think(*philo);
+			philo_think(philo);
 		else
-			get_forks(*philo);
+			get_forks(philo);
 	}
 	return (0);
 }
