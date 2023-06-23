@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 17:52:07 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/23 15:35:57 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	get_forks(t_philo *philo)
 	right_fork = (left_fork + 1) % data()->n_philos;
 	lock_forks(philo, left_fork, right_fork);
 	philo_eat(philo);
-	pthread_mutex_unlock(&data()->forks[left_fork]);
 	pthread_mutex_unlock(&data()->forks[right_fork]);
+	pthread_mutex_unlock(&data()->forks[left_fork]);
 	philo_think(philo);
 	philo_sleep(philo);
 	philo_think(philo);

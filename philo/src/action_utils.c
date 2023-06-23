@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 17:30:05 by anlima           ###   ########.fr       */
+/*   Updated: 2023/06/23 15:17:07 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_think(t_philo *philo)
 {
-	if (philo_die(philo))
+	if (philo_die(philo) || philo->ntimes_eat == 0)
 		return ;
 	log_action(philo->id, "is thinking");
 	usleep(data()->n_philos * 250);
