@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 17:39:07 by anlima           ###   ########.fr       */
+/*   Updated: 2023/07/01 00:18:49 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,10 @@ void	clean_mallocs(void)
 	i = -1;
 	n_philos = data()->n_philos;
 	while (++i < n_philos)
-		pthread_join(*(data()->philos[i].thread), 0);
+		pthread_join(data()->philos[i].thread, NULL);
 	i = -1;
 	while (++i < n_philos)
-	{
-		free(data()->philos[i].thread);
 		pthread_mutex_destroy(&(data()->forks[i]));
-	}
 	pthread_mutex_destroy(&data()->use_print);
 	pthread_mutex_destroy(&data()->use_data);
 	free(data()->forks);
@@ -77,12 +74,9 @@ long	get_time_stamp(void)
 
 void	log_action(int id, char *action)
 {
-	pthread_mutex_lock(&(data()->use_print));
 	if (philo_die(&(data()->philos[id])))
-	{
-		pthread_mutex_unlock(&(data()->use_print));
 		return ;
-	}
+	pthread_mutex_lock(&(data()->use_print));
 	ft_printf("%d\t%i\t%s\n", ((get_time_stamp() - data()->start_time) / 1000),
 		id + 1, action);
 	pthread_mutex_unlock(&(data()->use_print));

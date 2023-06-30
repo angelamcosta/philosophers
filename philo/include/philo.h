@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/21 17:38:22 by anlima           ###   ########.fr       */
+/*   Updated: 2023/07/01 00:48:13 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ typedef struct s_philo
 	int				id;
 	int				ntimes_eat;
 	long			last_meal;
-	pthread_t		*thread;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_t		thread;
 }				t_philo;
 
 typedef struct s_data
