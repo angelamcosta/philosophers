@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/07/01 12:34:32 by anlima           ###   ########.fr       */
+/*   Updated: 2023/07/01 23:34:55 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	clean_mallocs(void)
 		pthread_join(data()->philos[i].thread, NULL);
 	i = -1;
 	while (++i < n_philos)
-		pthread_mutex_destroy(&(data()->forks[i]));
+		pthread_mutex_destroy(&(data()->forks[i].fork));
 	pthread_mutex_destroy(&data()->use_print);
 	pthread_mutex_destroy(&data()->use_data);
 	free(data()->forks);
