@@ -6,14 +6,14 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/07/01 23:34:55 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 13:45:56 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 t_data	*data(void);
-int		ft_atoi(char *str);
+long	ft_atoi(char *str);
 void	clean_mallocs(void);
 long	get_time_stamp(void);
 void	log_action(int id, char *action);
@@ -25,7 +25,7 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
 	int		i;
 	long	nb;
@@ -54,10 +54,13 @@ void	clean_mallocs(void)
 	i = -1;
 	n_philos = data()->n_philos;
 	while (++i < n_philos)
+	{
+		pthread_mutex_destroy(&data()->philos[i].use_data);
 		pthread_join(data()->philos[i].thread, NULL);
+	}
 	i = -1;
 	while (++i < n_philos)
-		pthread_mutex_destroy(&(data()->forks[i].fork));
+		pthread_mutex_destroy(&(data()->forks[i]));
 	pthread_mutex_destroy(&data()->use_print);
 	pthread_mutex_destroy(&data()->use_data);
 	free(data()->forks);

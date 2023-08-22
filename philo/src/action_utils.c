@@ -6,12 +6,13 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/07/01 23:33:54 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 13:56:11 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
+void	ft_wait(void);
 void	philo_eat(t_philo *philo);
 int		philo_die(t_philo *philo);
 void	philo_sleep(t_philo *philo);
@@ -19,7 +20,7 @@ void	philo_think(t_philo *philo);
 
 void	philo_eat(t_philo *philo)
 {
-	if (philo_die(philo))
+	if (philo_die(philo) || philo->ntimes_eat == 0)
 		return ;
 	log_action(philo->id, "is eating");
 	philo->last_meal = get_time_stamp();
@@ -43,14 +44,16 @@ int	philo_die(t_philo *philo)
 		ft_printf("%d\t%i\t%s\n", ((get_time_stamp() - data()->start_time) / 1000),
 			philo->id + 1, "died");
 		data()->philo_died = 1;
+		pthread_mutex_unlock(&(data()->use_data));
+		return (1);
 	}
 	pthread_mutex_unlock(&(data()->use_data));
-	return (data()->philo_died);
+	return (0);
 }
 
 void	philo_sleep(t_philo *philo)
 {
-	if (philo_die(philo))
+	if (philo_die(philo) || philo->ntimes_eat == 0)
 		return ;
 	log_action(philo->id, "is sleeping");
 	usleep(data()->sleep);
@@ -63,7 +66,17 @@ void	philo_think(t_philo *philo)
 	if (philo_die(philo) || philo->ntimes_eat == 0)
 		return ;
 	log_action(philo->id, "is thinking");
-	usleep(data()->n_philos * 250);
+	usleep(data()->die - (get_time_stamp() - philo->last_meal)
+		- (data()->eat / 2));
 	if (philo_die(philo))
 		return ;
+}
+
+void	ft_wait(void)
+{
+	long	i;
+
+	i = data()->start_time - get_time_stamp();
+	if (i > 0)
+		usleep(i);
 }

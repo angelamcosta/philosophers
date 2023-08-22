@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:24 by anlima            #+#    #+#             */
-/*   Updated: 2023/06/20 17:48:14 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 13:31:33 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	if (argc >= 5 && argc <= 6)
 	{
 		data()->n_philos = ft_atoi(argv[1]);
-		data()->start_time = get_time_stamp();
+		data()->start_time = get_time_stamp() + (data()->n_philos * 2);
 		if (data()->n_philos <= 0)
 			return (ft_printf(ARG_FEW));
 		data()->die = ft_atoi(argv[2]) * 1000;

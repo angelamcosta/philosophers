@@ -1,13 +1,15 @@
 NAME	=	philo
 
 CC		=	cc
-CFLAGS	=	-g -Wall -Werror -Wextra -pthread #-fsanitize=thread
+CFLAGS	=	-g -Wall -Werror -Wextra -pthread
 
 SRC		=	philo.c \
 			./src/ft_printf.c \
 			./src/action_utils.c \
 			./src/general_utils.c \
 			./src/philo_utils.c
+
+OBJ		=	$(SRC:.c=.o)
 
 RED		=	\033[91;1m
 GREEN	=	\033[92;1m
@@ -18,16 +20,21 @@ CLEAR	=	\033[0m
 
 all:		$(NAME)
 
-$(NAME):
+$(NAME):	$(OBJ)
 			@echo "$(BLUE)Make all$(CLEAR)\n$(PINK)Compiling.$(CLEAR)"
-			@$(CC) $(CFLAGS) -o $(NAME) $(SRC)
+			@$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
 clean:
-			@echo "$(BLUE)Make clean/fclean$(CLEAR)\n$(RED)Removing all compiled files.$(CLEAR)"
-			@rm -f $(NAME)
+			@echo "$(BLUE)Make clean$(CLEAR)\n$(RED)Removing all compiled files.$(CLEAR)"
+			@rm -f $(OBJ)
 			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
 fclean:		clean
+			@echo "$(BLUE)Make fclean$(CLEAR)\n$(RED)Removing all compiled files.$(CLEAR)"
+			@rm -f $(NAME)
+			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
 re:			fclean all
+
+.PHONY:		all clean fclean re

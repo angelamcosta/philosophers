@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/07/01 23:34:19 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 13:55:26 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,13 @@
 typedef struct s_philo
 {
 	int				id;
+	int				fork;
+	int				n_philos;
 	int				ntimes_eat;
-	int				is_thinking;
 	long			last_meal;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
 	pthread_t		thread;
+	pthread_mutex_t	use_data;
 }				t_philo;
-
-typedef struct s_fork
-{
-	int				is_locked;
-	pthread_mutex_t	fork;
-}				t_fork;
 
 typedef struct s_data
 {
@@ -47,18 +41,19 @@ typedef struct s_data
 	long			eat;
 	long			sleep;
 	t_philo			*philos;
-	t_fork			*forks;
+	pthread_mutex_t	*forks;
 	long			start_time;
 	pthread_mutex_t	use_print;
 	pthread_mutex_t	use_data;
 }				t_data;
 
-void	philo_eat(t_philo *philo);
+void	ft_wait(void);
 int		philo_die(t_philo *philo);
+void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 t_data	*data(void);
-int		ft_atoi(char *str);
+long	ft_atoi(char *str);
 void	clean_mallocs(void);
 long	get_time_stamp(void);
 void	log_action(int id, char *action);
