@@ -7,7 +7,8 @@ SRC		=	philo.c \
 			./src/ft_printf.c \
 			./src/action_utils.c \
 			./src/general_utils.c \
-			./src/philo_utils.c
+			./src/philo_utils.c \
+			./src/verify_routine.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -22,6 +23,7 @@ all:		$(NAME)
 
 $(NAME):	$(OBJ)
 			@echo "$(BLUE)Make all$(CLEAR)\n$(PINK)Compiling.$(CLEAR)"
+			@norminette .
 			@$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
@@ -31,9 +33,7 @@ clean:
 			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
 fclean:		clean
-			@echo "$(BLUE)Make fclean$(CLEAR)\n$(RED)Removing all compiled files.$(CLEAR)"
 			@rm -f $(NAME)
-			@echo "$(GREEN)Success!$(CLEAR)\n$(YELLOW)Finished$(CLEAR)\n"
 
 re:			fclean all
 

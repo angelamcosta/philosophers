@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:36:20 by anlima            #+#    #+#             */
-/*   Updated: 2023/08/22 13:56:11 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 15:25:42 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,22 @@ int		philo_die(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 
+void	ft_wait(void)
+{
+	long	i;
+
+	i = data()->start_time - get_time_stamp();
+	if (i > 0)
+		usleep(i);
+}
+
 void	philo_eat(t_philo *philo)
 {
-	if (philo_die(philo) || philo->ntimes_eat == 0)
-		return ;
 	log_action(philo->id, "is eating");
 	philo->last_meal = get_time_stamp();
 	usleep(data()->eat);
 	if (philo->ntimes_eat > 0)
 		philo->ntimes_eat--;
-	if (philo_die(philo))
-		return ;
 }
 
 int	philo_die(t_philo *philo)
@@ -53,30 +58,21 @@ int	philo_die(t_philo *philo)
 
 void	philo_sleep(t_philo *philo)
 {
-	if (philo_die(philo) || philo->ntimes_eat == 0)
+	if (philo->ntimes_eat == 0)
 		return ;
 	log_action(philo->id, "is sleeping");
 	usleep(data()->sleep);
-	if (philo_die(philo))
-		return ;
 }
 
 void	philo_think(t_philo *philo)
 {
-	if (philo_die(philo) || philo->ntimes_eat == 0)
-		return ;
-	log_action(philo->id, "is thinking");
-	usleep(data()->die - (get_time_stamp() - philo->last_meal)
-		- (data()->eat / 2));
-	if (philo_die(philo))
-		return ;
-}
-
-void	ft_wait(void)
-{
 	long	i;
 
-	i = data()->start_time - get_time_stamp();
+	if (philo->ntimes_eat == 0)
+		return ;
+	log_action(philo->id, "is thinking");
+	i = data()->die - (get_time_stamp() - philo->last_meal)
+		- (data()->eat / 2);
 	if (i > 0)
 		usleep(i);
 }

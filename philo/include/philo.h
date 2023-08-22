@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:50:26 by anlima            #+#    #+#             */
-/*   Updated: 2023/08/22 13:55:26 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 15:17:35 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 typedef struct s_philo
 {
 	int				id;
-	int				fork;
 	int				n_philos;
 	int				ntimes_eat;
 	long			last_meal;
@@ -62,5 +61,6 @@ void	create_philos(void);
 void	get_forks(t_philo *philo);
 void	*philo_handler(void *ptr);
 void	lock_forks(t_philo *philo, int left_fork, int right_fork);
+void	verify_deaths(void);
 
 #endif

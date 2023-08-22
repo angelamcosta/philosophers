@@ -6,7 +6,7 @@
 /*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:22:36 by anlima            #+#    #+#             */
-/*   Updated: 2023/08/22 13:52:19 by anlima           ###   ########.fr       */
+/*   Updated: 2023/08/22 15:20:01 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	create_philos(void)
 			pthread_mutex_init(&data()->forks[i], 0);
 		usleep(200);
 		data()->philos[i].id = i;
-		data()->philos[i].fork = 0;
 		data()->philos[i].n_philos = n_philos;
 		data()->philos[i].ntimes_eat = data()->ntimes_eat;
 		data()->philos[i].last_meal = get_time_stamp();
@@ -58,6 +57,7 @@ void	create_philos(void)
 		pthread_create(&(data()->philos[i].thread), 0, &philo_handler,
 			(void *)&data()->philos[i]);
 	}
+	verify_deaths();
 }
 
 void	get_forks(t_philo *philo)
@@ -70,9 +70,7 @@ void	get_forks(t_philo *philo)
 	lock_forks(philo, left_fork, right_fork);
 	philo_eat(philo);
 	pthread_mutex_unlock(&data()->forks[right_fork]);
-	data()->philos[right_fork].fork = 0;
 	pthread_mutex_unlock(&data()->forks[left_fork]);
-	data()->philos[left_fork].fork = 0;
 	philo_sleep(philo);
 	philo_think(philo);
 }
@@ -87,9 +85,9 @@ void	*philo_handler(void *ptr)
 		philo_think(philo);
 	if (philo->id % 2 == 0)
 		usleep(1000);
-	while (philo->ntimes_eat != 0)
+	while (!philo_die(philo))
 	{
-		if (philo_die(philo))
+		if (philo->ntimes_eat == 0)
 			break ;
 		else if (philo->n_philos > 1)
 			get_forks(philo);
@@ -102,19 +100,15 @@ void	lock_forks(t_philo *philo, int left_fork, int right_fork)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data()->forks[left_fork]);
-		data()->philos[left_fork].fork = 1;
 		log_action(philo->id, "has taken a fork");
 		pthread_mutex_lock(&data()->forks[right_fork]);
-		data()->philos[right_fork].fork = 1;
 		log_action(philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&data()->forks[right_fork]);
-		data()->philos[right_fork].fork = 1;
 		log_action(philo->id, "has taken a fork");
 		pthread_mutex_lock(&data()->forks[left_fork]);
-		data()->philos[left_fork].fork = 1;
 		log_action(philo->id, "has taken a fork");
 	}
 }
