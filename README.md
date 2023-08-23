@@ -2,9 +2,8 @@
 
 <div align=center>
 
-  ![badge](https://raw.githubusercontent.com/angelamcosta/angelamcosta/main/42_badges/philosopherse.png)
+  ![badge](https://raw.githubusercontent.com/angelamcosta/angelamcosta/main/42_badges/philosophersm.png)
 
-  [![forthebadge](https://forthebadge.com/images/badges/made-with-c.svg)](https://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-by-codebabes.svg)](https://forthebadge.com)
 </div>
 
 Philosophers is a simulation program written in C that represents a classic dining philosophers problem. The program simulates a group of philosophers sitting at a round table, alternating between eating, thinking, and sleeping. Their goal is to avoid starvation while sharing a bowl of spaghetti and a limited number of forks. The subject of the project can be found in this [link](https://raw.githubusercontent.com/angelamcosta/philosophers/main/en.subject.pdf).
