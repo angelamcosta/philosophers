@@ -44,12 +44,10 @@ void	create_philos(void)
 	{
 		while (++j < n_philos)
 			pthread_mutex_init(&data()->forks[i], 0);
-		usleep(200);
 		data()->philos[i].id = i;
 		data()->philos[i].n_philos = n_philos;
 		data()->philos[i].ntimes_eat = data()->ntimes_eat;
 		data()->philos[i].last_meal = get_time_stamp();
-		pthread_mutex_init(&data()->philos[i].use_data, 0);
 	}
 	i = -1;
 	while (++i < n_philos)

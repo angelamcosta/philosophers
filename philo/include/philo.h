@@ -28,7 +28,6 @@ typedef struct s_philo
 	int				ntimes_eat;
 	long			last_meal;
 	pthread_t		thread;
-	pthread_mutex_t	use_data;
 }				t_philo;
 
 typedef struct s_data
