@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anlima <anlima@student.42lisboa.com>       +#+  +:+       +#+        */
+/*   By: anlima <anlima@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:02:39 by anlima            #+#    #+#             */
-/*   Updated: 2023/08/22 13:45:56 by anlima           ###   ########.fr       */
+/*   Updated: 2023/09/18 14:23:14 by anlima           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	clean_mallocs(void)
 	i = -1;
 	n_philos = data()->n_philos;
 	while (++i < n_philos)
-	{
-		pthread_mutex_destroy(&data()->philos[i].use_data);
 		pthread_join(data()->philos[i].thread, NULL);
-	}
 	i = -1;
 	while (++i < n_philos)
 		pthread_mutex_destroy(&(data()->forks[i]));
